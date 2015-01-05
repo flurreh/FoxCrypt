@@ -820,183 +820,63 @@ namespace FoxCrypt {
 		s2 = GETU32(in + 8) ^ rk[2];
 		s3 = GETU32(in + 12) ^ rk[3];
 
-		// round 1
-		t0 = m_te0[s0 >> 24] ^ m_te1[(s1 >> 16) & 0xff]
-			^ m_te2[(s2 >> 8) & 0xff] ^ m_te3[s3 & 0xff] ^ rk[4];
+		uint8_t r = m_roundCount >> 1;
+		while(true) {
+			t0 =
+				m_te0[(s0 >> 24)] ^
+				m_te1[(s1 >> 16) & 0xff] ^
+				m_te2[(s2 >> 8) & 0xff] ^
+				m_te3[(s3)& 0xff] ^
+				rk[4];
+			t1 =
+				m_te0[(s1 >> 24)] ^
+				m_te1[(s2 >> 16) & 0xff] ^
+				m_te2[(s3 >> 8) & 0xff] ^
+				m_te3[(s0)& 0xff] ^
+				rk[5];
+			t2 =
+				m_te0[(s2 >> 24)] ^
+				m_te1[(s3 >> 16) & 0xff] ^
+				m_te2[(s0 >> 8) & 0xff] ^
+				m_te3[(s1)& 0xff] ^
+				rk[6];
+			t3 =
+				m_te0[(s3 >> 24)] ^
+				m_te1[(s0 >> 16) & 0xff] ^
+				m_te2[(s1 >> 8) & 0xff] ^
+				m_te3[(s2)& 0xff] ^
+				rk[7];
 
-		t1 = m_te0[s1 >> 24] ^ m_te1[(s2 >> 16) & 0xff]
-			^ m_te2[(s3 >> 8) & 0xff] ^ m_te3[s0 & 0xff] ^ rk[5];
-
-		t2 = m_te0[s2 >> 24] ^ m_te1[(s3 >> 16) & 0xff]
-			^ m_te2[(s0 >> 8) & 0xff] ^ m_te3[s1 & 0xff] ^ rk[6];
-
-		t3 = m_te0[s3 >> 24] ^ m_te1[(s0 >> 16) & 0xff]
-			^ m_te2[(s1 >> 8) & 0xff] ^ m_te3[s2 & 0xff] ^ rk[7];
-
-		// round 2
-		s0 = m_te0[t0 >> 24] ^ m_te1[(t1 >> 16) & 0xff]
-			^ m_te2[(t2 >> 8) & 0xff] ^ m_te3[t3 & 0xff] ^ rk[8];
-
-		s1 = m_te0[t1 >> 24] ^ m_te1[(t2 >> 16) & 0xff]
-			^ m_te2[(t3 >> 8) & 0xff] ^ m_te3[t0 & 0xff] ^ rk[9];
-
-		s2 = m_te0[t2 >> 24] ^ m_te1[(t3 >> 16) & 0xff]
-			^ m_te2[(t0 >> 8) & 0xff] ^ m_te3[t1 & 0xff] ^ rk[10];
-
-		s3 = m_te0[t3 >> 24] ^ m_te1[(t0 >> 16) & 0xff]
-			^ m_te2[(t1 >> 8) & 0xff] ^ m_te3[t2 & 0xff] ^ rk[11];
-
-		// round 3
-		t0 = m_te0[s0 >> 24] ^ m_te1[(s1 >> 16) & 0xff]
-			^ m_te2[(s2 >> 8) & 0xff] ^ m_te3[s3 & 0xff] ^ rk[12];
-
-		t1 = m_te0[s1 >> 24] ^ m_te1[(s2 >> 16) & 0xff]
-			^ m_te2[(s3 >> 8) & 0xff] ^ m_te3[s0 & 0xff] ^ rk[13];
-
-		t2 = m_te0[s2 >> 24] ^ m_te1[(s3 >> 16) & 0xff]
-			^ m_te2[(s0 >> 8) & 0xff] ^ m_te3[s1 & 0xff] ^ rk[14];
-
-		t3 = m_te0[s3 >> 24] ^ m_te1[(s0 >> 16) & 0xff]
-			^ m_te2[(s1 >> 8) & 0xff] ^ m_te3[s2 & 0xff] ^ rk[15];
-
-		// round 4
-		s0 = m_te0[t0 >> 24] ^ m_te1[(t1 >> 16) & 0xff]
-			^ m_te2[(t2 >> 8) & 0xff] ^ m_te3[t3 & 0xff] ^ rk[16];
-
-		s1 = m_te0[t1 >> 24] ^ m_te1[(t2 >> 16) & 0xff]
-			^ m_te2[(t3 >> 8) & 0xff] ^ m_te3[t0 & 0xff] ^ rk[17];
-
-		s2 = m_te0[t2 >> 24] ^ m_te1[(t3 >> 16) & 0xff]
-			^ m_te2[(t0 >> 8) & 0xff] ^ m_te3[t1 & 0xff] ^ rk[18];
-
-		s3 = m_te0[t3 >> 24] ^ m_te1[(t0 >> 16) & 0xff]
-			^ m_te2[(t1 >> 8) & 0xff] ^ m_te3[t2 & 0xff] ^ rk[19];
-
-		// round 5
-		t0 = m_te0[s0 >> 24] ^ m_te1[(s1 >> 16) & 0xff]
-			^ m_te2[(s2 >> 8) & 0xff] ^ m_te3[s3 & 0xff] ^ rk[20];
-
-		t1 = m_te0[s1 >> 24] ^ m_te1[(s2 >> 16) & 0xff]
-			^ m_te2[(s3 >> 8) & 0xff] ^ m_te3[s0 & 0xff] ^ rk[21];
-
-		t2 = m_te0[s2 >> 24] ^ m_te1[(s3 >> 16) & 0xff]
-			^ m_te2[(s0 >> 8) & 0xff] ^ m_te3[s1 & 0xff] ^ rk[22];
-
-		t3 = m_te0[s3 >> 24] ^ m_te1[(s0 >> 16) & 0xff]
-			^ m_te2[(s1 >> 8) & 0xff] ^ m_te3[s2 & 0xff] ^ rk[23];
-
-		// round 6
-		s0 = m_te0[t0 >> 24] ^ m_te1[(t1 >> 16) & 0xff]
-			^ m_te2[(t2 >> 8) & 0xff] ^ m_te3[t3 & 0xff] ^ rk[24];
-
-		s1 = m_te0[t1 >> 24] ^ m_te1[(t2 >> 16) & 0xff]
-			^ m_te2[(t3 >> 8) & 0xff] ^ m_te3[t0 & 0xff] ^ rk[25];
-
-		s2 = m_te0[t2 >> 24] ^ m_te1[(t3 >> 16) & 0xff]
-			^ m_te2[(t0 >> 8) & 0xff] ^ m_te3[t1 & 0xff] ^ rk[26];
-
-		s3 = m_te0[t3 >> 24] ^ m_te1[(t0 >> 16) & 0xff]
-			^ m_te2[(t1 >> 8) & 0xff] ^ m_te3[t2 & 0xff] ^ rk[27];
-
-		// round 7
-		t0 = m_te0[s0 >> 24] ^ m_te1[(s1 >> 16) & 0xff]
-			^ m_te2[(s2 >> 8) & 0xff] ^ m_te3[s3 & 0xff] ^ rk[28];
-
-		t1 = m_te0[s1 >> 24] ^ m_te1[(s2 >> 16) & 0xff]
-			^ m_te2[(s3 >> 8) & 0xff] ^ m_te3[s0 & 0xff] ^ rk[29];
-
-		t2 = m_te0[s2 >> 24] ^ m_te1[(s3 >> 16) & 0xff]
-			^ m_te2[(s0 >> 8) & 0xff] ^ m_te3[s1 & 0xff] ^ rk[30];
-
-		t3 = m_te0[s3 >> 24] ^ m_te1[(s0 >> 16) & 0xff]
-			^ m_te2[(s1 >> 8) & 0xff] ^ m_te3[s2 & 0xff] ^ rk[31];
-
-		// round 8
-		s0 = m_te0[t0 >> 24] ^ m_te1[(t1 >> 16) & 0xff]
-			^ m_te2[(t2 >> 8) & 0xff] ^ m_te3[t3 & 0xff] ^ rk[32];
-
-		s1 = m_te0[t1 >> 24] ^ m_te1[(t2 >> 16) & 0xff]
-			^ m_te2[(t3 >> 8) & 0xff] ^ m_te3[t0 & 0xff] ^ rk[33];
-
-		s2 = m_te0[t2 >> 24] ^ m_te1[(t3 >> 16) & 0xff]
-			^ m_te2[(t0 >> 8) & 0xff] ^ m_te3[t1 & 0xff] ^ rk[34];
-
-		s3 = m_te0[t3 >> 24] ^ m_te1[(t0 >> 16) & 0xff]
-			^ m_te2[(t1 >> 8) & 0xff] ^ m_te3[t2 & 0xff] ^ rk[35];
-
-		// round 9
-		t0 = m_te0[s0 >> 24] ^ m_te1[(s1 >> 16) & 0xff]
-			^ m_te2[(s2 >> 8) & 0xff] ^ m_te3[s3 & 0xff] ^ rk[36];
-
-		t1 = m_te0[s1 >> 24] ^ m_te1[(s2 >> 16) & 0xff]
-			^ m_te2[(s3 >> 8) & 0xff] ^ m_te3[s0 & 0xff] ^ rk[37];
-
-		t2 = m_te0[s2 >> 24] ^ m_te1[(s3 >> 16) & 0xff]
-			^ m_te2[(s0 >> 8) & 0xff] ^ m_te3[s1 & 0xff] ^ rk[38];
-
-		t3 = m_te0[s3 >> 24] ^ m_te1[(s0 >> 16) & 0xff]
-			^ m_te2[(s1 >> 8) & 0xff] ^ m_te3[s2 & 0xff] ^ rk[39];
-
-		// if keysize > 128bit
-		if (this->m_roundCount > 10) {
-
-			// round 10
-			s0 = m_te0[t0 >> 24] ^ m_te1[(t1 >> 16) & 0xff]
-				^ m_te2[(t2 >> 8) & 0xff] ^ m_te3[t3 & 0xff] ^ rk[40];
-
-			s1 = m_te0[t1 >> 24] ^ m_te1[(t2 >> 16) & 0xff]
-				^ m_te2[(t3 >> 8) & 0xff] ^ m_te3[t0 & 0xff] ^ rk[41];
-
-			s2 = m_te0[t2 >> 24] ^ m_te1[(t3 >> 16) & 0xff]
-				^ m_te2[(t0 >> 8) & 0xff] ^ m_te3[t1 & 0xff] ^ rk[42];
-
-			s3 = m_te0[t3 >> 24] ^ m_te1[(t0 >> 16) & 0xff]
-				^ m_te2[(t1 >> 8) & 0xff] ^ m_te3[t2 & 0xff] ^ rk[43];
-
-			// round 11
-			t0 = m_te0[s0 >> 24] ^ m_te1[(s1 >> 16) & 0xff]
-				^ m_te2[(s2 >> 8) & 0xff] ^ m_te3[s3 & 0xff] ^ rk[44];
-
-			t1 = m_te0[s1 >> 24] ^ m_te1[(s2 >> 16) & 0xff]
-				^ m_te2[(s3 >> 8) & 0xff] ^ m_te3[s0 & 0xff] ^ rk[45];
-
-			t2 = m_te0[s2 >> 24] ^ m_te1[(s3 >> 16) & 0xff]
-				^ m_te2[(s0 >> 8) & 0xff] ^ m_te3[s1 & 0xff] ^ rk[46];
-
-			t3 = m_te0[s3 >> 24] ^ m_te1[(s0 >> 16) & 0xff]
-				^ m_te2[(s1 >> 8) & 0xff] ^ m_te3[s2 & 0xff] ^ rk[47];
-
-			// if keysize > 192bit (== 256bits)
-			if (this->m_roundCount > 12) {
-
-				// round 12
-				s0 = m_te0[t0 >> 24] ^ m_te1[(t1 >> 16) & 0xff]
-					^ m_te2[(t2 >> 8) & 0xff] ^ m_te3[t3 & 0xff] ^ rk[48];
-
-				s1 = m_te0[t1 >> 24] ^ m_te1[(t2 >> 16) & 0xff]
-					^ m_te2[(t3 >> 8) & 0xff] ^ m_te3[t0 & 0xff] ^ rk[49];
-
-				s2 = m_te0[t2 >> 24] ^ m_te1[(t3 >> 16) & 0xff]
-					^ m_te2[(t0 >> 8) & 0xff] ^ m_te3[t1 & 0xff] ^ rk[50];
-
-				s3 = m_te0[t3 >> 24] ^ m_te1[(t0 >> 16) & 0xff]
-					^ m_te2[(t1 >> 8) & 0xff] ^ m_te3[t2 & 0xff] ^ rk[51];
-
-				//  round 13
-				t0 = m_te0[s0 >> 24] ^ m_te1[(s1 >> 16) & 0xff]
-					^ m_te2[(s2 >> 8) & 0xff] ^ m_te3[s3 & 0xff] ^ rk[52];
-
-				t1 = m_te0[s1 >> 24] ^ m_te1[(s2 >> 16) & 0xff]
-					^ m_te2[(s3 >> 8) & 0xff] ^ m_te3[s0 & 0xff] ^ rk[53];
-
-				t2 = m_te0[s2 >> 24] ^ m_te1[(s3 >> 16) & 0xff]
-					^ m_te2[(s0 >> 8) & 0xff] ^ m_te3[s1 & 0xff] ^ rk[54];
-
-				t3 = m_te0[s3 >> 24] ^ m_te1[(s0 >> 16) & 0xff]
-					^ m_te2[(s1 >> 8) & 0xff] ^ m_te3[s2 & 0xff] ^ rk[55];
+			rk += 8;
+			if (r-- == 0) {
+				break;
 			}
+
+			s0 =
+				m_te0[(t0 >> 24)] ^
+				m_te1[(t1 >> 16) & 0xff] ^
+				m_te2[(t2 >> 8) & 0xff] ^
+				m_te3[(t3)& 0xff] ^
+				rk[0];
+			s1 =
+				m_te0[(t1 >> 24)] ^
+				m_te1[(t2 >> 16) & 0xff] ^
+				m_te2[(t3 >> 8) & 0xff] ^
+				m_te3[(t0)& 0xff] ^
+				rk[1];
+			s2 =
+				m_te0[(t2 >> 24)] ^
+				m_te1[(t3 >> 16) & 0xff] ^
+				m_te2[(t0 >> 8) & 0xff] ^
+				m_te3[(t1)& 0xff] ^
+				rk[2];
+			s3 =
+				m_te0[(t3 >> 24)] ^
+				m_te1[(t0 >> 16) & 0xff] ^
+				m_te2[(t1 >> 8) & 0xff] ^
+				m_te3[(t2)& 0xff] ^
+				rk[3];
 		}
-		rk += this->m_roundCount << 2;
 
 		// apply last round and map enciphered
 		// block to output
@@ -1057,183 +937,63 @@ namespace FoxCrypt {
 		s2 = GETU32(in + 8) ^ rk[2];
 		s3 = GETU32(in + 12) ^ rk[3];
 
-		// round 1
-		t0 = m_td0[s0 >> 24] ^ m_td1[(s3 >> 16) & 0xff]
-			^ m_td2[(s2 >> 8) & 0xff] ^ m_td3[s1 & 0xff] ^ rk[4];
+		uint32_t r = m_roundCount >> 1;
+		while(true) {
+			t0 =
+				m_td0[(s0 >> 24)] ^
+				m_td1[(s3 >> 16) & 0xff] ^
+				m_td2[(s2 >> 8) & 0xff] ^
+				m_td3[(s1)& 0xff] ^
+				rk[4];
+			t1 =
+				m_td0[(s1 >> 24)] ^
+				m_td1[(s0 >> 16) & 0xff] ^
+				m_td2[(s3 >> 8) & 0xff] ^
+				m_td3[(s2)& 0xff] ^
+				rk[5];
+			t2 =
+				m_td0[(s2 >> 24)] ^
+				m_td1[(s1 >> 16) & 0xff] ^
+				m_td2[(s0 >> 8) & 0xff] ^
+				m_td3[(s3)& 0xff] ^
+				rk[6];
+			t3 =
+				m_td0[(s3 >> 24)] ^
+				m_td1[(s2 >> 16) & 0xff] ^
+				m_td2[(s1 >> 8) & 0xff] ^
+				m_td3[(s0)& 0xff] ^
+				rk[7];
 
-		t1 = m_td0[s1 >> 24] ^ m_td1[(s0 >> 16) & 0xff]
-			^ m_td2[(s3 >> 8) & 0xff] ^ m_td3[s2 & 0xff] ^ rk[5];
-
-		t2 = m_td0[s2 >> 24] ^ m_td1[(s1 >> 16) & 0xff]
-			^ m_td2[(s0 >> 8) & 0xff] ^ m_td3[s3 & 0xff] ^ rk[6];
-
-		t3 = m_td0[s3 >> 24] ^ m_td1[(s2 >> 16) & 0xff]
-			^ m_td2[(s1 >> 8) & 0xff] ^ m_td3[s0 & 0xff] ^ rk[7];
-
-		// round 2
-		s0 = m_td0[t0 >> 24] ^ m_td1[(t3 >> 16) & 0xff]
-			^ m_td2[(t2 >> 8) & 0xff] ^ m_td3[t1 & 0xff] ^ rk[8];
-
-		s1 = m_td0[t1 >> 24] ^ m_td1[(t0 >> 16) & 0xff]
-			^ m_td2[(t3 >> 8) & 0xff] ^ m_td3[t2 & 0xff] ^ rk[9];
-
-		s2 = m_td0[t2 >> 24] ^ m_td1[(t1 >> 16) & 0xff]
-			^ m_td2[(t0 >> 8) & 0xff] ^ m_td3[t3 & 0xff] ^ rk[10];
-
-		s3 = m_td0[t3 >> 24] ^ m_td1[(t2 >> 16) & 0xff]
-			^ m_td2[(t1 >> 8) & 0xff] ^ m_td3[t0 & 0xff] ^ rk[11];
-
-		// round 3
-		t0 = m_td0[s0 >> 24] ^ m_td1[(s3 >> 16) & 0xff]
-			^ m_td2[(s2 >> 8) & 0xff] ^ m_td3[s1 & 0xff] ^ rk[12];
-
-		t1 = m_td0[s1 >> 24] ^ m_td1[(s0 >> 16) & 0xff]
-			^ m_td2[(s3 >> 8) & 0xff] ^ m_td3[s2 & 0xff] ^ rk[13];
-
-		t2 = m_td0[s2 >> 24] ^ m_td1[(s1 >> 16) & 0xff]
-			^ m_td2[(s0 >> 8) & 0xff] ^ m_td3[s3 & 0xff] ^ rk[14];
-
-		t3 = m_td0[s3 >> 24] ^ m_td1[(s2 >> 16) & 0xff]
-			^ m_td2[(s1 >> 8) & 0xff] ^ m_td3[s0 & 0xff] ^ rk[15];
-
-		// round 4
-		s0 = m_td0[t0 >> 24] ^ m_td1[(t3 >> 16) & 0xff]
-			^ m_td2[(t2 >> 8) & 0xff] ^ m_td3[t1 & 0xff] ^ rk[16];
-
-		s1 = m_td0[t1 >> 24] ^ m_td1[(t0 >> 16) & 0xff]
-			^ m_td2[(t3 >> 8) & 0xff] ^ m_td3[t2 & 0xff] ^ rk[17];
-
-		s2 = m_td0[t2 >> 24] ^ m_td1[(t1 >> 16) & 0xff]
-			^ m_td2[(t0 >> 8) & 0xff] ^ m_td3[t3 & 0xff] ^ rk[18];
-
-		s3 = m_td0[t3 >> 24] ^ m_td1[(t2 >> 16) & 0xff]
-			^ m_td2[(t1 >> 8) & 0xff] ^ m_td3[t0 & 0xff] ^ rk[19];
-
-		// round 5
-		t0 = m_td0[s0 >> 24] ^ m_td1[(s3 >> 16) & 0xff]
-			^ m_td2[(s2 >> 8) & 0xff] ^ m_td3[s1 & 0xff] ^ rk[20];
-
-		t1 = m_td0[s1 >> 24] ^ m_td1[(s0 >> 16) & 0xff]
-			^ m_td2[(s3 >> 8) & 0xff] ^ m_td3[s2 & 0xff] ^ rk[21];
-
-		t2 = m_td0[s2 >> 24] ^ m_td1[(s1 >> 16) & 0xff]
-			^ m_td2[(s0 >> 8) & 0xff] ^ m_td3[s3 & 0xff] ^ rk[22];
-
-		t3 = m_td0[s3 >> 24] ^ m_td1[(s2 >> 16) & 0xff]
-			^ m_td2[(s1 >> 8) & 0xff] ^ m_td3[s0 & 0xff] ^ rk[23];
-
-		// round 6
-		s0 = m_td0[t0 >> 24] ^ m_td1[(t3 >> 16) & 0xff]
-			^ m_td2[(t2 >> 8) & 0xff] ^ m_td3[t1 & 0xff] ^ rk[24];
-
-		s1 = m_td0[t1 >> 24] ^ m_td1[(t0 >> 16) & 0xff]
-			^ m_td2[(t3 >> 8) & 0xff] ^ m_td3[t2 & 0xff] ^ rk[25];
-
-		s2 = m_td0[t2 >> 24] ^ m_td1[(t1 >> 16) & 0xff]
-			^ m_td2[(t0 >> 8) & 0xff] ^ m_td3[t3 & 0xff] ^ rk[26];
-
-		s3 = m_td0[t3 >> 24] ^ m_td1[(t2 >> 16) & 0xff]
-			^ m_td2[(t1 >> 8) & 0xff] ^ m_td3[t0 & 0xff] ^ rk[27];
-
-		// round 7
-		t0 = m_td0[s0 >> 24] ^ m_td1[(s3 >> 16) & 0xff]
-			^ m_td2[(s2 >> 8) & 0xff] ^ m_td3[s1 & 0xff] ^ rk[28];
-
-		t1 = m_td0[s1 >> 24] ^ m_td1[(s0 >> 16) & 0xff]
-			^ m_td2[(s3 >> 8) & 0xff] ^ m_td3[s2 & 0xff] ^ rk[29];
-
-		t2 = m_td0[s2 >> 24] ^ m_td1[(s1 >> 16) & 0xff]
-			^ m_td2[(s0 >> 8) & 0xff] ^ m_td3[s3 & 0xff] ^ rk[30];
-
-		t3 = m_td0[s3 >> 24] ^ m_td1[(s2 >> 16) & 0xff]
-			^ m_td2[(s1 >> 8) & 0xff] ^ m_td3[s0 & 0xff] ^ rk[31];
-
-		// round 8
-		s0 = m_td0[t0 >> 24] ^ m_td1[(t3 >> 16) & 0xff]
-			^ m_td2[(t2 >> 8) & 0xff] ^ m_td3[t1 & 0xff] ^ rk[32];
-
-		s1 = m_td0[t1 >> 24] ^ m_td1[(t0 >> 16) & 0xff]
-			^ m_td2[(t3 >> 8) & 0xff] ^ m_td3[t2 & 0xff] ^ rk[33];
-
-		s2 = m_td0[t2 >> 24] ^ m_td1[(t1 >> 16) & 0xff]
-			^ m_td2[(t0 >> 8) & 0xff] ^ m_td3[t3 & 0xff] ^ rk[34];
-
-		s3 = m_td0[t3 >> 24] ^ m_td1[(t2 >> 16) & 0xff]
-			^ m_td2[(t1 >> 8) & 0xff] ^ m_td3[t0 & 0xff] ^ rk[35];
-
-		// round 9
-		t0 = m_td0[s0 >> 24] ^ m_td1[(s3 >> 16) & 0xff]
-			^ m_td2[(s2 >> 8) & 0xff] ^ m_td3[s1 & 0xff] ^ rk[36];
-
-		t1 = m_td0[s1 >> 24] ^ m_td1[(s0 >> 16) & 0xff]
-			^ m_td2[(s3 >> 8) & 0xff] ^ m_td3[s2 & 0xff] ^ rk[37];
-
-		t2 = m_td0[s2 >> 24] ^ m_td1[(s1 >> 16) & 0xff]
-			^ m_td2[(s0 >> 8) & 0xff] ^ m_td3[s3 & 0xff] ^ rk[38];
-
-		t3 = m_td0[s3 >> 24] ^ m_td1[(s2 >> 16) & 0xff]
-			^ m_td2[(s1 >> 8) & 0xff] ^ m_td3[s0 & 0xff] ^ rk[39];
-
-		// if keysize > 128bit
-		if (this->m_roundCount > 10) {
-
-			// round 10
-			s0 = m_td0[t0 >> 24] ^ m_td1[(t3 >> 16) & 0xff]
-				^ m_td2[(t2 >> 8) & 0xff] ^ m_td3[t1 & 0xff] ^ rk[40];
-
-			s1 = m_td0[t1 >> 24] ^ m_td1[(t0 >> 16) & 0xff]
-				^ m_td2[(t3 >> 8) & 0xff] ^ m_td3[t2 & 0xff] ^ rk[41];
-
-			s2 = m_td0[t2 >> 24] ^ m_td1[(t1 >> 16) & 0xff]
-				^ m_td2[(t0 >> 8) & 0xff] ^ m_td3[t3 & 0xff] ^ rk[42];
-
-			s3 = m_td0[t3 >> 24] ^ m_td1[(t2 >> 16) & 0xff]
-				^ m_td2[(t1 >> 8) & 0xff] ^ m_td3[t0 & 0xff] ^ rk[43];
-
-			// round 11
-			t0 = m_td0[s0 >> 24] ^ m_td1[(s3 >> 16) & 0xff]
-				^ m_td2[(s2 >> 8) & 0xff] ^ m_td3[s1 & 0xff] ^ rk[44];
-
-			t1 = m_td0[s1 >> 24] ^ m_td1[(s0 >> 16) & 0xff]
-				^ m_td2[(s3 >> 8) & 0xff] ^ m_td3[s2 & 0xff] ^ rk[45];
-
-			t2 = m_td0[s2 >> 24] ^ m_td1[(s1 >> 16) & 0xff]
-				^ m_td2[(s0 >> 8) & 0xff] ^ m_td3[s3 & 0xff] ^ rk[46];
-
-			t3 = m_td0[s3 >> 24] ^ m_td1[(s2 >> 16) & 0xff]
-				^ m_td2[(s1 >> 8) & 0xff] ^ m_td3[s0 & 0xff] ^ rk[47];
-
-			// if keysize > 192bit (== 256bits)
-			if (this->m_roundCount > 12) {
-
-				// round 12
-				s0 = m_td0[t0 >> 24] ^ m_td1[(t3 >> 16) & 0xff]
-					^ m_td2[(t2 >> 8) & 0xff] ^ m_td3[t1 & 0xff] ^ rk[48];
-
-				s1 = m_td0[t1 >> 24] ^ m_td1[(t0 >> 16) & 0xff]
-					^ m_td2[(t3 >> 8) & 0xff] ^ m_td3[t2 & 0xff] ^ rk[49];
-
-				s2 = m_td0[t2 >> 24] ^ m_td1[(t1 >> 16) & 0xff]
-					^ m_td2[(t0 >> 8) & 0xff] ^ m_td3[t3 & 0xff] ^ rk[50];
-
-				s3 = m_td0[t3 >> 24] ^ m_td1[(t2 >> 16) & 0xff]
-					^ m_td2[(t1 >> 8) & 0xff] ^ m_td3[t0 & 0xff] ^ rk[51];
-
-				// round 13
-				t0 = m_td0[s0 >> 24] ^ m_td1[(s3 >> 16) & 0xff]
-					^ m_td2[(s2 >> 8) & 0xff] ^ m_td3[s1 & 0xff] ^ rk[52];
-
-				t1 = m_td0[s1 >> 24] ^ m_td1[(s0 >> 16) & 0xff]
-					^ m_td2[(s3 >> 8) & 0xff] ^ m_td3[s2 & 0xff] ^ rk[53];
-
-				t2 = m_td0[s2 >> 24] ^ m_td1[(s1 >> 16) & 0xff]
-					^ m_td2[(s0 >> 8) & 0xff] ^ m_td3[s3 & 0xff] ^ rk[54];
-
-				t3 = m_td0[s3 >> 24] ^ m_td1[(s2 >> 16) & 0xff]
-					^ m_td2[(s1 >> 8) & 0xff] ^ m_td3[s0 & 0xff] ^ rk[55];
+			rk += 8;
+			if (--r == 0) {
+				break;
 			}
+
+			s0 =
+				m_td0[(t0 >> 24)] ^
+				m_td1[(t3 >> 16) & 0xff] ^
+				m_td2[(t2 >> 8) & 0xff] ^
+				m_td3[(t1)& 0xff] ^
+				rk[0];
+			s1 =
+				m_td0[(t1 >> 24)] ^
+				m_td1[(t0 >> 16) & 0xff] ^
+				m_td2[(t3 >> 8) & 0xff] ^
+				m_td3[(t2)& 0xff] ^
+				rk[1];
+			s2 =
+				m_td0[(t2 >> 24)] ^
+				m_td1[(t1 >> 16) & 0xff] ^
+				m_td2[(t0 >> 8) & 0xff] ^
+				m_td3[(t3)& 0xff] ^
+				rk[2];
+			s3 =
+				m_td0[(t3 >> 24)] ^
+				m_td1[(t2 >> 16) & 0xff] ^
+				m_td2[(t1 >> 8) & 0xff] ^
+				m_td3[(t0)& 0xff] ^
+				rk[3];
 		}
-		rk += this->m_roundCount << 2;
 
 		// apply last round and map deciphered
 		// block to output
